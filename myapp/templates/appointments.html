@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center">Записи на прийом</h2>
+
+<form method="post" action="{{ url_for('add_appointment') }}" 
+      class="d-flex flex-column align-items-center mb-3 w-50 mx-auto">
+  <select name="patient_id" class="form-select mb-2" required>
+    <option value="">Оберіть пацієнта</option>
+    {% for p in patients %}
+      <option value="{{ p.id }}">{{ p.name }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="doctor_id" class="form-select mb-2" required>
+    <option value="">Оберіть лікаря</option>
+    {% for d in doctors %}
+      <option value="{{ d.id }}">{{ d.name }} ({{ d.specialty }})</option>
+    {% endfor %}
+  </select>
+
+  <input type="date" name="date" required class="form-control mb-2">
+
+  <button class="btn btn-custom">Записати</button>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr><th>ID</th><th>Пацієнт</th><th>Лікар</th><th>Дата</th></tr>
+    </thead>
+    <tbody>
+      {% for a in appointments %}
+        <tr>
+          <td>{{ a.id }}</td>
+          <td>{{ a.patient.name }}</td>
+          <td>{{ a.doctor.name }} ({{ a.doctor.specialty }})</td>
+          <td>{{ a.date }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="4">Записів поки немає</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

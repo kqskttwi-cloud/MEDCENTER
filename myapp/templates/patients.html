@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center">Пацієнти</h2>
+
+<form method="post" action="{{ url_for('add_patient') }}" 
+      class="d-flex flex-column align-items-center mb-3 w-50 mx-auto">
+  <input type="text" name="name" placeholder="Ім'я" required class="form-control mb-2">
+  <input type="number" name="age" placeholder="Вік" class="form-control mb-2">
+  <button class="btn btn-custom">Додати</button>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr><th>ID</th><th>Ім’я</th><th>Вік</th></tr>
+    </thead>
+    <tbody>
+      {% for p in patients %}
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.age if p.age else "-" }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="3">Пацієнтів поки немає</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
